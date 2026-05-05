@@ -60,11 +60,9 @@ def page():
     # Radar synthèse par segment
     st.markdown('<div class="section-title">Les nouveaux clients et jeunes actifs concentrent le risque d\'attrition</div>', unsafe_allow_html=True)
 
-    col1, col2 = st.columns(2)
-    with col1:
-        seg_sorted = segment.sort_values("churn_rate_pct", ascending=True)
-        colors = [SEG_COLORS.get(s, BLUE) for s in seg_sorted["segment"]]
-        fig2 = go.Figure(go.Bar(
+    seg_sorted = segment.sort_values("churn_rate_pct", ascending=True)
+    colors = [SEG_COLORS.get(s, BLUE) for s in seg_sorted["segment"]]
+    fig2 = go.Figure(go.Bar(
             x=seg_sorted["churn_rate_pct"],
             y=seg_sorted["segment"],
             orientation="h",
@@ -72,28 +70,14 @@ def page():
             text=[f"{v}%" for v in seg_sorted["churn_rate_pct"]],
             textposition="outside",
         ))
-        fig2.update_layout(
+    fig2.update_layout(
             height=280, plot_bgcolor="white", paper_bgcolor="white",
             margin=dict(t=10, b=10, l=10, r=80),
             xaxis=dict(ticksuffix="%", gridcolor="#f1f5f9"),
             showlegend=False
         )
-        st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, use_container_width=True)
 
-    with col2:
-        fig3 = go.Figure(go.Bar(
-            x=channel["service_channel"],
-            y=channel["churn_rate_pct"],
-            marker_color=[RED if c == "Application mobile" else ORANGE if c == "Chatbot" else GREY for c in channel["service_channel"]],
-            text=[f"{v}%" for v in channel["churn_rate_pct"]],
-            textposition="outside",
-        ))
-        fig3.update_layout(
-            height=280, plot_bgcolor="white", paper_bgcolor="white",
-            margin=dict(t=10, b=40, l=10, r=10),
-            yaxis=dict(ticksuffix="%", gridcolor="#f1f5f9"),
-            showlegend=False
-        )
-        st.plotly_chart(fig3, use_container_width=True)
+
 
     st.markdown('<div class="insight-box">💡 <strong>Lecture :</strong> Le churn est 3,6× plus élevé chez les nouveaux clients que chez les Premium. L\'app mobile — canal le plus utilisé — affiche le taux de churn le plus fort (5,6 %) et le plus grand volume de contacts (240k).</div>', unsafe_allow_html=True)

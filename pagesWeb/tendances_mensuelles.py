@@ -49,7 +49,7 @@ def page():
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown('<div class="section-title">Les plaintes triplent tandis que l\'attente au support double</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Les plaintes et l\'attente au support double entre juillet et novembre</div>', unsafe_allow_html=True)
         fig2 = make_subplots(specs=[[{"secondary_y": True}]])
         fig2.add_trace(go.Scatter(
             x=df["month"], y=df["complaints_count"],
